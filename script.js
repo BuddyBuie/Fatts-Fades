@@ -30,23 +30,37 @@ function filterPosts(category) {
 
 
 //  Email Code
+
+
 const btn = document.getElementById('button');
 
-document.getElementById('form')
- .addEventListener('submit', function(event) {
-   event.preventDefault();
+document.getElementById('form').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-   btn.value = 'Sending...';
+  // Check email length
+  const phoneInput = document.getElementById('email_id'); // Replace 'email_id' with the actual ID of your phone input field
+  if (phoneInput.value.length < 7) {
+    alert('Please enter a valid Phone Number with at least 7 characters');
+    btn.value = 'Book Me'; // Reset the button value
+    return; // Stop the form submission if the condition is not met
+  }
 
-   const serviceID = 'service_nvq8wdk';
-   const templateID = 'template_461ikwn';
+  btn.value = 'Sending...';
 
-   emailjs.sendForm(serviceID, templateID, this)
+  const serviceID = 'service_nvq8wdk';
+  const templateID = 'template_461ikwn';
+
+  emailjs.sendForm(serviceID, templateID, this)
     .then(() => {
-      btn.value = 'Send Email';
+      btn.value = 'Book Me';
       alert('Sent!');
+      resetForm(); // Clear the form after successful submission
     }, (err) => {
-      btn.value = 'Send Email';
+      btn.value = 'Book Me';
       alert(JSON.stringify(err));
     });
 });
+
+function resetForm() {
+  document.getElementById('form').reset();
+}
